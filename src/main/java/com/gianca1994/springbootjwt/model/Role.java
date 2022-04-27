@@ -1,9 +1,9 @@
-package com.gianca1994.umcredits.model;
+package com.gianca1994.springbootjwt.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConstructorBinding;
 
 import javax.persistence.*;
 
@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Role {
 
     private static final long serialVersionUID = 1L;
@@ -20,9 +21,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role_name")
+    @Column(name = "role_name", unique = true)
     private String roleName;
-
-    public Role() {
-    }
 }

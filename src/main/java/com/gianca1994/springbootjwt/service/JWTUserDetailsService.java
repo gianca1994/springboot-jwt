@@ -1,18 +1,17 @@
 package com.gianca1994.springbootjwt.service;
 
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,10 +70,12 @@ public class JWTUserDetailsService implements UserDetailsService {
         if (validateEmail(user.getEmail())) {
             User newUser = new User();
             Role standardRole = roleRepository.findById(1L).get();
-            
+
             newUser.setUsername(user.getUsername());
-            newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+            newUser.setPassword(encryptPassword(user.getPassword()));
+            newUser.setEmail(user.getEmail());
             newUser.getRoles().add(standardRole);
+
 
             return userRepository.save(newUser);
         }
